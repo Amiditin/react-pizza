@@ -1,15 +1,17 @@
 import React from 'react';
-import { pizzaCategories } from '../utils/constans/pizzaOptions';
+import styles from './Categories.module.scss';
+
+import { pizzaCategories } from '../../utils/constans/pizzaOptions';
 
 const Categories: React.FC = () => {
   const [activeCategory, setActiveCategory] = React.useState<number>(pizzaCategories[0].id);
 
   return (
-    <div className="categories">
+    <div className={styles.categories}>
       <ul>
         {pizzaCategories.map((сategory) => (
           <li
-            className={activeCategory === сategory.id ? 'active' : 'disabled'}
+            className={activeCategory === сategory.id ? styles.active : 'disabled'}
             key={сategory.id}
             onClick={() => activeCategory !== сategory.id && setActiveCategory(сategory.id)}>
             {сategory.name}

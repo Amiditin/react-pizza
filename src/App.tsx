@@ -1,31 +1,20 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import Categories from './components/Categories';
-import Header from './components/Header';
-import PizzaBlock from './components/PizzaBlock';
-import Sort from './components/Sort';
-
-import { pizzas } from './utils/constans/pizzas';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Cart from './pages/Cart';
 
 const App: React.FC = () => {
   return (
-    <div className="wrapper">
-      <Header />
-      <div className="content">
-        <div className="container">
-          <div className="content__top">
-            <Categories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            {pizzas.map((pizza) => (
-              <PizzaBlock key={pizza.id} {...pizza} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 };
 

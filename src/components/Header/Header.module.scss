@@ -1,8 +1,12 @@
-@import '../variables';
+@import '../../scss/variables';
 
 .header {
   border-bottom: 1px solid $gray-line;
-  padding: 40px 0;
+  padding: 30px 60px;
+
+  @media (max-width: 500px) {
+    padding: 25px;
+  }
 
   .container {
     display: flex;
@@ -10,8 +14,9 @@
     justify-content: space-between;
   }
 
-  &__logo {
+  .logo {
     display: flex;
+    margin-right: 15px;
 
     img {
       margin-right: 15px;
@@ -27,6 +32,18 @@
 
     p {
       color: #7b7b7b;
+
+      @media (max-width: 680px) {
+        display: none;
+      }
     }
+  }
+
+  .delimiter {
+    width: 2px;
+    height: 25px;
+    background-color: rgba(255, 255, 255, 0.25);
+    margin-left: 14px;
+    margin-right: 14px;
   }
 }

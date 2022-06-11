@@ -1,26 +1,27 @@
-@import '../variables';
+@import '../../scss/variables';
 
-.pizza-block {
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.block {
   width: 280px;
   text-align: center;
   margin-bottom: 65px;
 
-  &:not(:nth-of-type(4n)) {
-    margin-right: 35px;
-  }
-
-  &__image {
+  .image {
     width: 260px;
   }
 
-  &__title {
+  .title {
     font-size: 20px;
     font-weight: 900;
     letter-spacing: 1%;
     margin-bottom: 20px;
   }
 
-  &__selector {
+  .selector {
     display: flex;
     background-color: #f3f3f3;
     border-radius: 10px;
@@ -41,26 +42,26 @@
         cursor: pointer;
         font-weight: 600;
         font-size: 14px;
-        @include noselect();
-
-        &.active {
-          background: #ffffff;
-          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
-          border-radius: 5px;
-          cursor: auto;
-        }
       }
     }
   }
 
-  &__bottom {
+  .active {
+    background: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+    border-radius: 5px;
+    cursor: default !important;
+    @include noselect();
+  }
+
+  .bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
   }
 
-  &__price {
+  .price {
     font-weight: bold;
     font-size: 22px;
     line-height: 27px;

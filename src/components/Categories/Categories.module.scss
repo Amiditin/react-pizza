@@ -1,8 +1,9 @@
-@import '../variables';
+@import '../../scss/variables';
 
 .categories {
   ul {
     display: flex;
+    margin-bottom: 0;
 
     li {
       background-color: #f9f9f9;
@@ -14,6 +15,7 @@
       transition: background-color 0.1s ease-in-out;
       @include noselect();
 
+
       &:hover {
         background-color: darken(#f9f9f9, 2%);
       }
@@ -21,11 +23,22 @@
       &:active {
         background-color: darken(#f9f9f9, 5%);
       }
-
-      &.active {
-        background-color: #282828;
-        color: #fff;
-      }
     }
+  }
+
+
+  @media (max-width: 1210px) {
+    margin-top: 15px;
+  }
+
+  @media (max-width: 950px) {
+    padding-bottom: 15px;
+    width: 100%;
+    overflow: auto;
+  }
+
+  .active {
+    background-color: #282828 !important;
+    color: #fff;
   }
 }
