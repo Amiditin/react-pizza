@@ -1,15 +1,20 @@
 import React from 'react';
 import styles from './Sort.module.scss';
-
 import { CaretDownOutlined } from '@ant-design/icons';
+
 import { pizzaFilters } from '../../utils/constans/pizzaOptions';
+import { IPizzaFilters } from '../../utils/interfaces/IPizzaOptions';
 
-const Sort: React.FC = () => {
+interface ISort {
+  selectedFilter: IPizzaFilters;
+  setSelectedFilter: React.Dispatch<React.SetStateAction<IPizzaFilters>>;
+}
+
+const Sort: React.FC<ISort> = ({ selectedFilter, setSelectedFilter }) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
-  const [selectedFilter, setSelectedFilter] = React.useState<string>(pizzaFilters[0].name);
 
-  const onClickSelect = (name: string) => {
-    setSelectedFilter(name);
+  const onClickSelect = (filter: IPizzaFilters) => {
+    setSelectedFilter(filter);
     setIsVisible(false);
   };
 
@@ -18,17 +23,17 @@ const Sort: React.FC = () => {
       <div className={styles.label}>
         <CaretDownOutlined rotate={isVisible ? 180 : 0} />
         <b>Сортировка по:</b>
-        <div onClick={() => setIsVisible(!isVisible)}>{selectedFilter}</div>
+        <div onClick={() => setIsVisible(!isVisible)}>{selectedFilter.title}</div>
       </div>
       {isVisible && (
         <div className={styles.popup}>
           <ul>
             {pizzaFilters.map((filter) => (
               <li
-                className={selectedFilter === filter.name ? styles.active : 'disabled'}
+                className={selectedFilter.id === filter.id ? styles.active : 'disabled'}
                 key={filter.id}
-                onClick={() => onClickSelect(filter.name)}>
-                {filter.name}
+                onClick={() => onClickSelect(filter)}>
+                {filter.title}
               </li>
             ))}
           </ul>

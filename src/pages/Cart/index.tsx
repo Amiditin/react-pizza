@@ -3,7 +3,7 @@ import styles from './Cart.module.scss';
 import { Link } from 'react-router-dom';
 import { ShoppingCartOutlined, DeleteOutlined, LeftOutlined } from '@ant-design/icons';
 
-import CartItem from './Item';
+import CartItem from '../../components/CartItem';
 
 const Cart: React.FC = () => {
   return (
@@ -16,8 +16,8 @@ const Cart: React.FC = () => {
               Корзина
             </h2>
             <div className={styles.clear}>
-              <DeleteOutlined />
               <span>Очистить корзину</span>
+              <DeleteOutlined />
             </div>
           </div>
           <div className={styles.items}>

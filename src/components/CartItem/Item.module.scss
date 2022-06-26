@@ -1,29 +1,50 @@
-@import '../../../scss/variables';
+@import '../../scss/variables';
+
+$width: 820px;
 
 .item {
   display: flex;
+  justify-content: space-between;
   width: 100%;
   border-top: 1px solid $gray-line;
   padding-top: 30px;
   margin-top: 30px;
 
-  .img {
-    display: flex;
+  @media (max-width: $width) {
+    flex-direction: column;
     align-items: center;
-    margin-right: 15px;
-    width: 10%;
-
-    img {
-      width: 80px;
-      height: 80px;
-    }
   }
 
   .info {
     display: flex;
+
+    @media (max-width: $width) {
+      margin-bottom: 20px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+
+    @media (max-width: $width) {
+      width: 315px;
+    }
+  }
+
+  .img {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    width: 80px;
+    height: 80px;
+  }
+
+  .text {
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 40%;
 
     h3 {
       font-weight: bold;
@@ -42,10 +63,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 13%;
+    width: 25%;
 
     b {
       font-size: 22px;
+      margin: 0 10px;
     }
 
     svg {
@@ -69,7 +91,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 33%;
 
     b {
       font-weight: bold;
@@ -83,7 +104,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    width: 4%;
 
     svg {
       font-size: 28px;

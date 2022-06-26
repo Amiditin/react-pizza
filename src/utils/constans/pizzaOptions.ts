@@ -1,4 +1,4 @@
-import { IPizzaCategory, IPizzaType, IPizzaFilters } from '../types/IPizzaOptions';
+import { IPizzaCategory, IPizzaType, IPizzaFilters } from '../interfaces/IPizzaOptions';
 
 const pizzaCategories: IPizzaCategory[] = [
   { id: 0, name: 'Все' },
@@ -15,9 +15,9 @@ const pizzaTypes: IPizzaType[] = [
 ];
 
 const pizzaFilters: IPizzaFilters[] = [
-  { id: 0, name: 'популярности' },
-  { id: 1, name: 'цене' },
-  { id: 2, name: 'алфавиту' },
+  { id: 0, name: 'rating', title: 'популярности' },
+  { id: 1, name: 'price', title: 'цене' },
+  { id: 2, name: 'title', title: 'алфавиту' },
 ];
 
 export { pizzaCategories, pizzaTypes, pizzaFilters };

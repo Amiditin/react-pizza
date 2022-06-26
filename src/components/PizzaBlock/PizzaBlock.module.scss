@@ -6,7 +6,11 @@
 }
 
 .block {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   width: 280px;
+  min-height: 486px;
   text-align: center;
   margin-bottom: 65px;
 

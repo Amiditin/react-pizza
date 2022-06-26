@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './PizzaBlock.module.scss';
 
-import IPizza from '../../utils/types/IPizza';
+import IPizza from '../../utils/interfaces/IPizza';
 import { pizzaTypes } from '../../utils/constans/pizzaOptions';
 import { PlusOutlined } from '@ant-design/icons';
 
