@@ -34,7 +34,6 @@
 .items {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 11px;
   grid-row-gap: 20px;
 
@@ -49,4 +48,18 @@
   @media (max-width: 730px) {
     grid-template-columns: repeat(1, 1fr);
   }
+}
+
+.pagination {
+  text-align: center;
+  padding-bottom: 40px;
+
+  li {
+    border-radius: 50%;
+
+    button {
+      border-radius: 50% !important;
+    }
+  }
+
 }
