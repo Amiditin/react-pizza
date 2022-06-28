@@ -12,6 +12,7 @@ const Search: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
+    setValue('');
     dispatch(setSearch(''));
     inputRef.current?.focus();
   };
@@ -19,7 +20,6 @@ const Search: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearch = React.useCallback(
     debounce((value: string) => {
-      console.log('debounce');
       dispatch(setSearch(value));
     }, 500),
     [],
