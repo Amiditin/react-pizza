@@ -1,33 +1,37 @@
 import React from 'react';
 import styles from './Home.module.scss';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { setSortDescending } from '../../redux/filter/slice';
+import { setCurPage } from '../../redux/pagination/slice';
 
 import Categories from '../../components/Categories';
+import Pagination from '../../components/Pagination';
 import PizzaBlock from '../../components/PizzaBlock';
 import PizzaBlockSkeleton from '../../components/PizzaBlock/Skeleton';
 import Sort from '../../components/Sort';
 
 import IPizza from '../../utils/interfaces/IPizza';
-import { IPizzaCategory, IPizzaFilters } from '../../utils/interfaces/IPizzaOptions';
-import { pizzaCategories, pizzaFilters } from '../../utils/constans/pizzaOptions';
+
+import { pizzaCategories } from '../../utils/constans/pizzaOptions';
 import { mockapiUrl } from '../../utils/constans/mockapiUrl';
-import { Pagination } from 'antd';
 
 const Home: React.FC = () => {
   const [items, setItems] = React.useState<IPizza[] | null>(null);
-  const [activeCategory, setActiveCategory] = React.useState<IPizzaCategory>(pizzaCategories[0]);
-  const [selectedFilter, setSelectedFilter] = React.useState<IPizzaFilters>(pizzaFilters[0]);
-  const [sortDescending, setSortDescending] = React.useState<boolean>(false);
-  const [curPage, setCurPage] = React.useState<number>(1);
-  const [pageSize, setPageSize] = React.useState<number>(4);
+
+  const { category, sort, sortDescending } = useAppSelector((state) => state.filter);
+  const { curPage, pageSize } = useAppSelector((state) => state.pagination);
+
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     try {
       setItems(null);
-      setSortDescending(false);
+      dispatch(setSortDescending(false));
+      dispatch(setCurPage(1));
 
       fetch(
-        `${mockapiUrl}/items?sortBy=${selectedFilter.name}${
-          activeCategory !== pizzaCategories[0] ? '&category=' + activeCategory.id : ''
+        `${mockapiUrl}/items?sortBy=${sort.name}${
+          category !== pizzaCategories[0] ? '&category=' + category.id : ''
         }`,
       )
         .then((res) => res.json())
@@ -38,26 +42,18 @@ const Home: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [selectedFilter, activeCategory]);
+  }, [category, sort, dispatch]);
 
   const onClickDescending = () => {
-    setSortDescending(!sortDescending);
+    dispatch(setSortDescending(!sortDescending));
     items?.reverse();
   };
-
-  React.useEffect(() => {
-    window.addEventListener('resize', () =>
-      window.innerWidth > 1060 && window.innerWidth <= 1400
-        ? pageSize !== 3 && setPageSize(3)
-        : pageSize !== 4 && setPageSize(4),
-    );
-  }, [pageSize]);
 
   return (
     <div className="container">
       <div className={styles.top}>
-        <Categories activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
-        <Sort selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className={styles.title}>
         Все пиццы
@@ -75,15 +71,7 @@ const Home: React.FC = () => {
               .map((item) => <PizzaBlock key={item.id} {...item} />)
           : Array.from({ length: pageSize }, (_, i) => <PizzaBlockSkeleton key={i} />)}
       </div>
-      <div className={styles.pagination}>
-        <Pagination
-          current={curPage}
-          pageSize={pageSize}
-          onChange={(page) => setCurPage(page)}
-          defaultPageSize={pageSize}
-          total={items?.length}
-        />
-      </div>
+      <Pagination total={items?.length} />
     </div>
   );
 };

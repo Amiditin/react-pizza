@@ -1,20 +1,20 @@
 import React from 'react';
 import styles from './Sort.module.scss';
 import { CaretDownOutlined } from '@ant-design/icons';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { setSort } from '../../redux/filter/slice';
 
-import { pizzaFilters } from '../../utils/constans/pizzaOptions';
-import { IPizzaFilters } from '../../utils/interfaces/IPizzaOptions';
+import { pizzaSorts } from '../../utils/constans/pizzaOptions';
+import { IPizzaSort } from '../../utils/interfaces/IPizzaOptions';
 
-interface ISort {
-  selectedFilter: IPizzaFilters;
-  setSelectedFilter: React.Dispatch<React.SetStateAction<IPizzaFilters>>;
-}
+const Sort: React.FC = () => {
+  const { sort } = useAppSelector((state) => state.filter);
+  const dispatch = useAppDispatch();
 
-const Sort: React.FC<ISort> = ({ selectedFilter, setSelectedFilter }) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
 
-  const onClickSelect = (filter: IPizzaFilters) => {
-    setSelectedFilter(filter);
+  const onClickSelect = (sort: IPizzaSort) => {
+    dispatch(setSort(sort));
     setIsVisible(false);
   };
 
@@ -23,17 +23,17 @@ const Sort: React.FC<ISort> = ({ selectedFilter, setSelectedFilter }) => {
       <div className={styles.label}>
         <CaretDownOutlined rotate={isVisible ? 180 : 0} />
         <b>Сортировка по:</b>
-        <div onClick={() => setIsVisible(!isVisible)}>{selectedFilter.title}</div>
+        <div onClick={() => setIsVisible(!isVisible)}>{sort.title}</div>
       </div>
       {isVisible && (
         <div className={styles.popup}>
           <ul>
-            {pizzaFilters.map((filter) => (
+            {pizzaSorts.map((item) => (
               <li
-                className={selectedFilter.id === filter.id ? styles.active : 'disabled'}
-                key={filter.id}
-                onClick={() => onClickSelect(filter)}>
-                {filter.title}
+                className={sort.id === item.id ? styles.active : 'disabled'}
+                key={item.id}
+                onClick={() => onClickSelect(item)}>
+                {item.title}
               </li>
             ))}
           </ul>

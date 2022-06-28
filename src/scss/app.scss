@@ -8,6 +8,7 @@ body {
 
   @media (max-width: 500px) {
     display: inline-block;
+    background-color: white;
   }
 }
 
@@ -37,6 +38,26 @@ body {
 
     .content__title {
       margin: 0;
+    }
+  }
+}
+
+.ant-pagination-item {
+  a {
+    &:hover {
+      color: $orange;
+    }
+  }
+
+  &:hover {
+    border-color: $orange;
+  }
+
+  &-active {
+    border-color: $orange;
+
+    a {
+      color: $orange;
     }
   }
 }

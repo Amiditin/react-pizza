@@ -1,23 +1,22 @@
 import React from 'react';
 import styles from './Categories.module.scss';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { setCategory } from '../../redux/filter/slice';
 
 import { pizzaCategories } from '../../utils/constans/pizzaOptions';
-import { IPizzaCategory } from '../../utils/interfaces/IPizzaOptions';
 
-interface ICategories {
-  activeCategory: IPizzaCategory;
-  setActiveCategory: React.Dispatch<React.SetStateAction<IPizzaCategory>>;
-}
+const Categories: React.FC = () => {
+  const { category } = useAppSelector((state) => state.filter);
+  const dispatch = useAppDispatch();
 
-const Categories: React.FC<ICategories> = ({ activeCategory, setActiveCategory }) => {
   return (
     <div className={styles.categories}>
       <ul>
         {pizzaCategories.map((сategory) => (
           <li
-            className={activeCategory.id === сategory.id ? styles.active : 'disabled'}
+            className={category.id === сategory.id ? styles.active : 'disabled'}
             key={сategory.id}
-            onClick={() => activeCategory.id !== сategory.id && setActiveCategory(сategory)}>
+            onClick={() => category.id !== сategory.id && dispatch(setCategory(сategory))}>
             {сategory.name}
           </li>
         ))}

@@ -1,7 +1,7 @@
-import { IPizzaCategory, IPizzaType, IPizzaFilters } from '../interfaces/IPizzaOptions';
+import { IPizzaCategory, IPizzaType, IPizzaSort } from '../interfaces/IPizzaOptions';
 
 const pizzaCategories: IPizzaCategory[] = [
-  { id: 0, name: 'Все' },
+  { id: 0, name: 'Все' }, // default category
   { id: 1, name: 'Мясные' },
   { id: 2, name: 'Вегетарианская' },
   { id: 3, name: 'Гриль' },
@@ -14,10 +14,10 @@ const pizzaTypes: IPizzaType[] = [
   { id: 1, name: 'традиционное' },
 ];
 
-const pizzaFilters: IPizzaFilters[] = [
-  { id: 0, name: 'rating', title: 'популярности' },
+const pizzaSorts: IPizzaSort[] = [
+  { id: 0, name: 'rating', title: 'популярности' }, // default sort
   { id: 1, name: 'price', title: 'цене' },
   { id: 2, name: 'title', title: 'алфавиту' },
 ];
 
-export { pizzaCategories, pizzaTypes, pizzaFilters };
+export { pizzaCategories, pizzaTypes, pizzaSorts };
