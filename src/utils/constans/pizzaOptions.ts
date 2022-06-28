@@ -3,7 +3,7 @@ import { IPizzaCategory, IPizzaType, IPizzaSort } from '../interfaces/IPizzaOpti
 const pizzaCategories: IPizzaCategory[] = [
   { id: 0, name: 'Все' }, // default category
   { id: 1, name: 'Мясные' },
-  { id: 2, name: 'Вегетарианская' },
+  { id: 2, name: 'Вегетарианские' },
   { id: 3, name: 'Гриль' },
   { id: 4, name: 'Острые' },
   { id: 5, name: 'Закрытые' },

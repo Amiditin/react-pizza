@@ -53,11 +53,26 @@ body {
     border-color: $orange;
   }
 
+  &-link,
   &-active {
     border-color: $orange;
 
     a {
       color: $orange;
     }
+  }
+}
+
+.ant-pagination-next,
+.ant-pagination-prev {
+  button {
+    &:hover {
+      color: $orange !important;
+      border-color: $orange !important;
+    }
+  }
+
+  button {
+    border-color: $orange;
   }
 }

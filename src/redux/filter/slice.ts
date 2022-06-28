@@ -5,6 +5,7 @@ import { pizzaCategories, pizzaSorts } from '../../utils/constans/pizzaOptions';
 
 const initialState: IFiltersState = {
   category: pizzaCategories[0],
+  search: '',
   sort: pizzaSorts[0],
   sortDescending: false,
 };
@@ -16,6 +17,9 @@ const filterSlice = createSlice({
     setCategory(state, action: PayloadAction<IPizzaCategory>) {
       state.category = action.payload;
     },
+    setSearch(state, action: PayloadAction<string>) {
+      state.search = action.payload;
+    },
     setSort(state, action: PayloadAction<IPizzaSort>) {
       state.sort = action.payload;
     },
@@ -25,6 +29,6 @@ const filterSlice = createSlice({
   },
 });
 
-export const { setCategory, setSort, setSortDescending } = filterSlice.actions;
+export const { setCategory, setSearch, setSort, setSortDescending } = filterSlice.actions;
 
 export default filterSlice.reducer;

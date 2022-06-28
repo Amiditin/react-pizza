@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Home.module.scss';
+import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setSortDescending } from '../../redux/filter/slice';
 import { setCurPage } from '../../redux/pagination/slice';
@@ -9,6 +10,7 @@ import Pagination from '../../components/Pagination';
 import PizzaBlock from '../../components/PizzaBlock';
 import PizzaBlockSkeleton from '../../components/PizzaBlock/Skeleton';
 import Sort from '../../components/Sort';
+import Search from '../../components/Search';
 
 import IPizza from '../../utils/interfaces/IPizza';
 
@@ -18,7 +20,7 @@ import { mockapiUrl } from '../../utils/constans/mockapiUrl';
 const Home: React.FC = () => {
   const [items, setItems] = React.useState<IPizza[] | null>(null);
 
-  const { category, sort, sortDescending } = useAppSelector((state) => state.filter);
+  const { category, search, sort, sortDescending } = useAppSelector((state) => state.filter);
   const { curPage, pageSize } = useAppSelector((state) => state.pagination);
 
   const dispatch = useAppDispatch();
@@ -29,20 +31,17 @@ const Home: React.FC = () => {
       dispatch(setSortDescending(false));
       dispatch(setCurPage(1));
 
-      fetch(
-        `${mockapiUrl}/items?sortBy=${sort.name}${
-          category !== pizzaCategories[0] ? '&category=' + category.id : ''
-        }`,
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data === 'Not found') throw new Error('');
-          setItems(data);
-        });
-    } catch (error) {
-      console.log(error);
+      axios
+        .get<IPizza[]>(
+          `${mockapiUrl}/items?sortBy=${sort.name}` +
+            `${category !== pizzaCategories[0] ? '&category=' + category.id : ''}` +
+            `${search ? '&search=' + search : ''}`,
+        )
+        .then((res) => setItems(res.data));
+    } catch (err) {
+      console.error(err);
     }
-  }, [category, sort, dispatch]);
+  }, [category, search, sort, dispatch]);
 
   const onClickDescending = () => {
     dispatch(setSortDescending(!sortDescending));
@@ -52,18 +51,21 @@ const Home: React.FC = () => {
   return (
     <div className="container">
       <div className={styles.top}>
+        <h2 className={styles.title}>
+          {category.name} пиццы
+          <img
+            className={`${styles.sortSvg} ${sortDescending ? styles.descending : ''}`}
+            src="/img/sort.svg"
+            alt="sort"
+            onClick={onClickDescending}
+          />
+        </h2>
+        <Search />
+      </div>
+      <div className={styles.middle}>
         <Categories />
         <Sort />
       </div>
-      <h2 className={styles.title}>
-        Все пиццы
-        <img
-          className={`${styles.sortSvg} ${sortDescending ? styles.descending : ''}`}
-          src="/img/sort.svg"
-          alt="sort"
-          onClick={onClickDescending}
-        />
-      </h2>
       <div className={styles.items}>
         {items
           ? items
