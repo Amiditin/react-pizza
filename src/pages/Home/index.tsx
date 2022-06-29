@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Home.module.scss';
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setSortDescending } from '../../redux/filter/slice';
+import {
+  setCategory,
+  setFilters,
+  setSearch,
+  setSort,
+  setSortDescending,
+} from '../../redux/filter/slice';
 import { setCurPage } from '../../redux/pagination/slice';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import Categories from '../../components/Categories';
 import Pagination from '../../components/Pagination';
@@ -14,7 +21,7 @@ import Search from '../../components/Search';
 
 import IPizza from '../../utils/interfaces/IPizza';
 
-import { pizzaCategories } from '../../utils/constans/pizzaOptions';
+import { pizzaCategories, pizzaSorts } from '../../utils/constans/pizzaOptions';
 import { mockapiUrl } from '../../utils/constans/mockapiUrl';
 
 const Home: React.FC = () => {
@@ -22,26 +29,66 @@ const Home: React.FC = () => {
 
   const { category, search, sort, sortDescending } = useAppSelector((state) => state.filter);
   const { curPage, pageSize } = useAppSelector((state) => state.pagination);
-
   const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
-    try {
-      setItems(null);
-      dispatch(setSortDescending(false));
-      dispatch(setCurPage(1));
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [loadingFirstSearchParams, setLoadingFirstSearchParams] = React.useState<boolean>(true);
 
-      axios
-        .get<IPizza[]>(
-          `${mockapiUrl}/items?sortBy=${sort.name}` +
-            `${category !== pizzaCategories[0] ? '&category=' + category.id : ''}` +
-            `${search ? '&search=' + search : ''}`,
-        )
-        .then((res) => setItems(res.data));
-    } catch (err) {
-      console.error(err);
+  // reset filters to default when navigate to ./
+  React.useEffect(() => {
+    if (!location.search) {
+      dispatch(setCategory(pizzaCategories[0]));
+      dispatch(setSort(pizzaSorts[0]));
+      dispatch(setSearch(''));
     }
-  }, [category, search, sort, dispatch]);
+  }, [dispatch, location, setSearchParams]);
+
+  // set filters at the first rendering
+  React.useEffect(() => {
+    if (searchParams) {
+      const categoryParam = searchParams.get('category');
+      const sortParam = searchParams.get('sort');
+      const searchParam = searchParams.get('search');
+
+      const category = pizzaCategories.find((item) => item.name === categoryParam);
+      const sort = pizzaSorts.find((item) => item.name === sortParam);
+
+      dispatch(
+        setFilters({
+          category: category || pizzaCategories[0],
+          sort: sort || pizzaSorts[0],
+          search: searchParam || '',
+        }),
+      );
+    }
+
+    setLoadingFirstSearchParams(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    setSearchParams({ category: category.name, search: search, sort: sort.name });
+
+    if (!loadingFirstSearchParams) {
+      try {
+        setItems(null);
+        sortDescending && dispatch(setSortDescending(false));
+        curPage !== 1 && dispatch(setCurPage(1));
+
+        axios
+          .get<IPizza[]>(
+            `${mockapiUrl}/items?sortBy=${sort.name}` +
+              `${category !== pizzaCategories[0] ? '&category=' + category.id : ''}` +
+              `${search ? '&search=' + search : ''}`,
+          )
+          .then((res) => setItems(res.data));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, search, sort, setSearchParams, loadingFirstSearchParams]);
 
   const onClickDescending = () => {
     dispatch(setSortDescending(!sortDescending));

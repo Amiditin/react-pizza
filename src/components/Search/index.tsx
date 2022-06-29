@@ -2,14 +2,20 @@ import React from 'react';
 import styles from './Search.module.scss';
 import debounce from 'lodash.debounce';
 import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
+import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import { setSearch } from '../../redux/filter/slice';
 
 const Search: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
   const [value, setValue] = React.useState<string>('');
+  const dispatch = useAppDispatch();
 
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    setValue(searchParams.get('search') || '');
+  }, [searchParams]);
 
   const onClickClear = () => {
     setValue('');

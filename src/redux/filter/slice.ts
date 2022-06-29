@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFiltersState } from './types';
+import { IFiltersState, IFiltersSetter } from './types';
 import { IPizzaCategory, IPizzaSort } from '../../utils/interfaces/IPizzaOptions';
 import { pizzaCategories, pizzaSorts } from '../../utils/constans/pizzaOptions';
 
@@ -26,9 +26,15 @@ const filterSlice = createSlice({
     setSortDescending(state, action: PayloadAction<boolean>) {
       state.sortDescending = action.payload;
     },
+    setFilters(state, action: PayloadAction<IFiltersSetter>) {
+      state.category = action.payload.category;
+      state.search = action.payload.search;
+      state.sort = action.payload.sort;
+    },
   },
 });
 
-export const { setCategory, setSearch, setSort, setSortDescending } = filterSlice.actions;
+export const { setCategory, setSearch, setSort, setSortDescending, setFilters } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;
