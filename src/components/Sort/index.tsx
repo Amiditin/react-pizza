@@ -12,6 +12,19 @@ const Sort: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
+  const sortLabelRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const closePopup = (e: MouseEvent) => {
+      const _e = e as MouseEvent & { path: Node[] };
+
+      sortLabelRef.current && !_e.path.includes(sortLabelRef.current) && setIsVisible(false);
+    };
+
+    isVisible && document.body.addEventListener('click', closePopup);
+
+    return () => document.body.removeEventListener('click', closePopup);
+  }, [isVisible]);
 
   const onClickSelect = (sort: IPizzaSort) => {
     dispatch(setSort(sort));
@@ -20,7 +33,7 @@ const Sort: React.FC = () => {
 
   return (
     <div className={styles.sort}>
-      <div className={styles.label}>
+      <div className={styles.label} ref={sortLabelRef}>
         <CaretDownOutlined rotate={isVisible ? 180 : 0} />
         <b>Сортировка по:</b>
         <div onClick={() => setIsVisible(!isVisible)}>{sort.title}</div>
