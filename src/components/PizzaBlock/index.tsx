@@ -4,11 +4,20 @@ import styles from './PizzaBlock.module.scss';
 import IPizza from '../../utils/interfaces/IPizza';
 import { pizzaTypes } from '../../utils/constans/pizzaOptions';
 import { PlusOutlined } from '@ant-design/icons';
+import { useAppDispatch } from '../../hooks/redux';
+import { addPizzaToCart } from '../../redux/cart/slice';
 
 const PizzaBlock: React.FC<IPizza> = ({ imageUrl, title, types, sizes, price }) => {
   const [numPizzas, setNumPizzas] = React.useState<number>(0);
   const [curType, setCurType] = React.useState<number>(types[0]);
   const [curSize, setCurSize] = React.useState<number>(sizes[0]);
+
+  const dispatch = useAppDispatch();
+
+  const onClickAdd = () => {
+    setNumPizzas(numPizzas + 1);
+    dispatch(addPizzaToCart({ imageUrl, title, type: curType, size: curSize, price }));
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -39,9 +48,7 @@ const PizzaBlock: React.FC<IPizza> = ({ imageUrl, title, types, sizes, price }) 
         </div>
         <div className={styles.bottom}>
           <div className={styles.price}>от {price} ₽</div>
-          <button
-            className="button button--outline button--add"
-            onClick={() => setNumPizzas(numPizzas + 1)}>
+          <button className="button button--outline button--add" onClick={onClickAdd}>
             <PlusOutlined />
             <span>Добавить</span>
             <i>{numPizzas}</i>

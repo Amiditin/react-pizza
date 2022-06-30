@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './Home.module.scss';
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-  setCategory,
-  setFilters,
-  setSearch,
-  setSort,
-  setSortDescending,
-} from '../../redux/filter/slice';
+import { setFilters, setSortDescending } from '../../redux/filter/slice';
 import { setCurPage } from '../../redux/pagination/slice';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
@@ -38,9 +32,13 @@ const Home: React.FC = () => {
   // reset filters to default when navigate to ./
   React.useEffect(() => {
     if (!location.search) {
-      dispatch(setCategory(pizzaCategories[0]));
-      dispatch(setSort(pizzaSorts[0]));
-      dispatch(setSearch(''));
+      dispatch(
+        setFilters({
+          category: pizzaCategories[0],
+          sort: pizzaSorts[0],
+          search: '',
+        }),
+      );
     }
   }, [dispatch, location, setSearchParams]);
 
