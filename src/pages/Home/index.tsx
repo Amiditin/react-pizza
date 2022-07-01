@@ -20,31 +20,19 @@ import { mockapiUrl } from '../../utils/constans/mockapiUrl';
 
 const Home: React.FC = () => {
   const [items, setItems] = React.useState<IPizza[] | null>(null);
-
   const { category, search, sort, sortDescending } = useAppSelector((state) => state.filter);
   const { curPage, pageSize } = useAppSelector((state) => state.pagination);
-  const dispatch = useAppDispatch();
 
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [loadingFirstSearchParams, setLoadingFirstSearchParams] = React.useState<boolean>(true);
-
-  // reset filters to default when navigate to ./
-  React.useEffect(() => {
-    if (!location.search) {
-      dispatch(
-        setFilters({
-          category: pizzaCategories[0],
-          sort: pizzaSorts[0],
-          search: '',
-        }),
-      );
-    }
-  }, [dispatch, location, setSearchParams]);
+  const [mountSearchParams, setMountFirstSearchParams] = React.useState<boolean>(true);
 
   // set filters at the first rendering
-  React.useEffect(() => {
-    if (searchParams) {
+  React.useLayoutEffect(() => {
+    let options = { category: pizzaCategories[0], sort: pizzaSorts[0], search: '' };
+
+    if (location.search) {
       const categoryParam = searchParams.get('category');
       const sortParam = searchParams.get('sort');
       const searchParam = searchParams.get('search');
@@ -52,23 +40,21 @@ const Home: React.FC = () => {
       const category = pizzaCategories.find((item) => item.name === categoryParam);
       const sort = pizzaSorts.find((item) => item.name === sortParam);
 
-      dispatch(
-        setFilters({
-          category: category || pizzaCategories[0],
-          sort: sort || pizzaSorts[0],
-          search: searchParam || '',
-        }),
-      );
+      if (category) options.category = category;
+      if (sort) options.sort = sort;
+      if (searchParam) options.search = searchParam;
     }
 
-    setLoadingFirstSearchParams(false);
+    if (mountSearchParams || !location.search) dispatch(setFilters(options));
+
+    setMountFirstSearchParams(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.search]);
 
   React.useEffect(() => {
-    setSearchParams({ category: category.name, search: search, sort: sort.name });
+    if (!mountSearchParams) {
+      setSearchParams({ category: category.name, search: search, sort: sort.name });
 
-    if (!loadingFirstSearchParams) {
       try {
         setItems(null);
         sortDescending && dispatch(setSortDescending(false));
@@ -86,7 +72,7 @@ const Home: React.FC = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, search, sort, setSearchParams, loadingFirstSearchParams]);
+  }, [category, search, sort, setSearchParams, mountSearchParams]);
 
   const onClickDescending = () => {
     dispatch(setSortDescending(!sortDescending));

@@ -4,7 +4,7 @@ import styles from './PizzaBlock.module.scss';
 import IPizza from '../../utils/interfaces/IPizza';
 import { pizzaTypes } from '../../utils/constans/pizzaOptions';
 import { PlusOutlined } from '@ant-design/icons';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addPizzaToCart } from '../../redux/cart/slice';
 
 const PizzaBlock: React.FC<IPizza> = ({ imageUrl, title, types, sizes, price }) => {
@@ -12,10 +12,16 @@ const PizzaBlock: React.FC<IPizza> = ({ imageUrl, title, types, sizes, price }) 
   const [curType, setCurType] = React.useState<number>(types[0]);
   const [curSize, setCurSize] = React.useState<number>(sizes[0]);
 
+  const { items } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
+  React.useEffect(() => {
+    setNumPizzas(
+      items.reduce((acc, item) => (item.value.title === title ? acc + item.number : acc), 0),
+    );
+  }, [items, title]);
+
   const onClickAdd = () => {
-    setNumPizzas(numPizzas + 1);
     dispatch(addPizzaToCart({ imageUrl, title, type: curType, size: curSize, price }));
   };
 
