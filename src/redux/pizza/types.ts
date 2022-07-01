@@ -3,7 +3,7 @@ import { IPizzaCategory, IPizzaSort } from '../../utils/interfaces/IPizzaOptions
 
 export enum Status {
   LOADING = 'loading',
-  SUCCESS = 'completed',
+  SUCCESS = 'success',
   ERROR = 'error',
 }
 export interface PizzasState {

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Home.module.scss';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setFilters, setSortDescending } from '../../redux/filter/slice';
 import { setCurPage } from '../../redux/pagination/slice';
@@ -17,7 +17,7 @@ import { pizzaCategories, pizzaSorts } from '../../utils/constans/pizzaOptions';
 
 const Home: React.FC = () => {
   const { category, search, sort, sortDescending } = useAppSelector((state) => state.filter);
-  const { items } = useAppSelector((state) => state.pizza);
+  const { items, status } = useAppSelector((state) => state.pizza);
   const { curPage, pageSize } = useAppSelector((state) => state.pagination);
 
   const location = useLocation();
@@ -64,6 +64,53 @@ const Home: React.FC = () => {
     items?.reverse();
   };
 
+  const renderItems = () => {
+    switch (status) {
+      case 'success':
+        if (items.length !== 0)
+          return (
+            <>
+              <div className={styles.items}>
+                {items.slice((curPage - 1) * pageSize, curPage * pageSize).map((item) => (
+                  <PizzaBlock key={item.id} {...item} />
+                ))}
+              </div>
+              <Pagination total={items?.length} />
+            </>
+          );
+
+        let options = { category: pizzaCategories[0], sort: pizzaSorts[0], search: '' };
+
+        return (
+          <div className={styles.notFound}>
+            <span>Не удалось найти пиццы 😢</span>
+            <button className="button" onClick={() => dispatch(setFilters(options))}>
+              Сбросить фильтры
+            </button>
+          </div>
+        );
+
+      case 'loading':
+        return (
+          <div className={styles.items}>
+            {Array.from({ length: pageSize }, (_, i) => (
+              <PizzaBlockSkeleton key={i} />
+            ))}
+          </div>
+        );
+
+      case 'error':
+        return (
+          <div className={styles.notFound}>
+            <span>Произошла ошибка при получении пицц 😢</span>
+            <Link to="/">
+              <button className="button button--black">Попробовать снова</button>
+            </Link>
+          </div>
+        );
+    }
+  };
+
   return (
     <div className="container">
       <div className={styles.top}>
@@ -82,14 +129,7 @@ const Home: React.FC = () => {
         <Categories />
         <Sort />
       </div>
-      <div className={styles.items}>
-        {items
-          ? items
-              .slice((curPage - 1) * pageSize, curPage * pageSize)
-              .map((item) => <PizzaBlock key={item.id} {...item} />)
-          : Array.from({ length: pageSize }, (_, i) => <PizzaBlockSkeleton key={i} />)}
-      </div>
-      <Pagination total={items?.length} />
+      {renderItems()}
     </div>
   );
 };
