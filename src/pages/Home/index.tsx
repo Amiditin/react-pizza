@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './Home.module.scss';
-import axios from 'axios';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setFilters, setSortDescending } from '../../redux/filter/slice';
 import { setCurPage } from '../../redux/pagination/slice';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { fetchPizzas } from '../../redux/pizza/asyncActions';
 
 import Categories from '../../components/Categories';
 import Pagination from '../../components/Pagination';
@@ -13,14 +13,11 @@ import PizzaBlockSkeleton from '../../components/PizzaBlock/Skeleton';
 import Sort from '../../components/Sort';
 import Search from '../../components/Search';
 
-import IPizza from '../../utils/interfaces/IPizza';
-
 import { pizzaCategories, pizzaSorts } from '../../utils/constans/pizzaOptions';
-import { mockapiUrl } from '../../utils/constans/mockapiUrl';
 
 const Home: React.FC = () => {
-  const [items, setItems] = React.useState<IPizza[] | null>(null);
   const { category, search, sort, sortDescending } = useAppSelector((state) => state.filter);
+  const { items } = useAppSelector((state) => state.pizza);
   const { curPage, pageSize } = useAppSelector((state) => state.pagination);
 
   const location = useLocation();
@@ -54,25 +51,13 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     if (!mountSearchParams) {
       setSearchParams({ category: category.name, search: search, sort: sort.name });
+      sortDescending && dispatch(setSortDescending(false));
+      curPage !== 1 && dispatch(setCurPage(1));
 
-      try {
-        setItems(null);
-        sortDescending && dispatch(setSortDescending(false));
-        curPage !== 1 && dispatch(setCurPage(1));
-
-        axios
-          .get<IPizza[]>(
-            `${mockapiUrl}/items?sortBy=${sort.name}` +
-              `${category !== pizzaCategories[0] ? '&category=' + category.id : ''}` +
-              `${search ? '&search=' + search : ''}`,
-          )
-          .then((res) => setItems(res.data));
-      } catch (err) {
-        console.error(err);
-      }
+      dispatch(fetchPizzas({ category, sort, search }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, search, sort, setSearchParams, mountSearchParams]);
+  }, [category, search, sort, mountSearchParams]);
 
   const onClickDescending = () => {
     dispatch(setSortDescending(!sortDescending));
