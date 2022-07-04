@@ -1,4 +1,4 @@
-export interface IPagination {
+export interface PaginationState {
   curPage: number;
   pageSize: number;
 }

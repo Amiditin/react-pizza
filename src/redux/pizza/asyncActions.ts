@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { IFilters } from './types';
+import { IFilters } from '../filter/types';
 import IPizza from '../../utils/interfaces/IPizza';
 
 import { pizzaCategories } from '../../utils/constans/pizzaOptions';

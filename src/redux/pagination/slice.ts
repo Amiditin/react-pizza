@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPagination } from './types';
+import { PaginationState } from './types';
 
-const initialState: IPagination = {
+const initialState: PaginationState = {
   curPage: 1,
   pageSize: 4,
 };

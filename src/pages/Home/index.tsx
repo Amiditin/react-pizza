@@ -59,25 +59,25 @@ const Home: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, search, sort, mountSearchParams]);
 
-  const onClickDescending = () => {
-    dispatch(setSortDescending(!sortDescending));
-    items?.reverse();
-  };
-
   const renderItems = () => {
     switch (status) {
       case 'success':
-        if (items.length !== 0)
+        if (items.length !== 0) {
+          let sortItems = [...items];
+
+          if (sortDescending) sortItems.reverse();
+
           return (
             <>
               <div className={styles.items}>
-                {items.slice((curPage - 1) * pageSize, curPage * pageSize).map((item) => (
+                {sortItems.slice((curPage - 1) * pageSize, curPage * pageSize).map((item) => (
                   <PizzaBlock key={item.id} {...item} />
                 ))}
               </div>
-              <Pagination total={items?.length} />
+              <Pagination total={sortItems?.length} />
             </>
           );
+        }
 
         let options = { category: pizzaCategories[0], sort: pizzaSorts[0], search: '' };
 
@@ -120,7 +120,7 @@ const Home: React.FC = () => {
             className={`${styles.sortSvg} ${sortDescending ? styles.descending : ''}`}
             src="/img/sort.svg"
             alt="sort"
-            onClick={onClickDescending}
+            onClick={() => dispatch(setSortDescending(!sortDescending))}
           />
         </h2>
         <Search />

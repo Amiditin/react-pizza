@@ -8,11 +8,11 @@ import { useAppDispatch } from '../../hooks/redux';
 import { changeNumberPizza, removePizzaFromCart } from '../../redux/cart/slice';
 import { Popconfirm } from 'antd';
 
-interface ICartItem {
+type CartItemProps = {
   pizza: ICartPizza;
-}
+};
 
-const Item: React.FC<ICartItem> = ({ pizza }) => {
+const Item: React.FC<CartItemProps> = ({ pizza }) => {
   const dispatch = useAppDispatch();
 
   return (

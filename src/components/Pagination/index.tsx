@@ -4,11 +4,11 @@ import { Pagination as PaginationAntD } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setPageSize, setCurPage } from '../../redux/pagination/slice';
 
-interface IPagination {
+type PaginationProps = {
   total: number | undefined;
-}
+};
 
-const Pagination: React.FC<IPagination> = ({ total }) => {
+const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const { curPage, pageSize } = useAppSelector((state) => state.pagination);
   const dispatch = useAppDispatch();
 

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPizza, ICartPizza, ICartPizzas, ICartChangePizza } from './types';
+import { Pizza, ICartPizza, CartPizzasState, ICartChangePizza } from './types';
 
-const initialState: ICartPizzas = {
+const initialState: CartPizzasState = {
   items: [],
   numberItems: 0,
   totalPrice: 0,
@@ -11,7 +11,15 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addPizzaToCart(state, action: PayloadAction<IPizza>) {
+    setPizzasToCart: (state, action: PayloadAction<ICartPizza[]>) => {
+      state.items = action.payload;
+      state.numberItems = action.payload.reduce((sum, item) => sum + item.number, 0);
+      state.totalPrice = action.payload.reduce(
+        (sum, item) => sum + item.value.price * item.number,
+        0,
+      );
+    },
+    addPizzaToCart(state, action: PayloadAction<Pizza>) {
       const pizza = state.items.find(
         (pizza) => JSON.stringify(pizza.value) === JSON.stringify(action.payload),
       );
@@ -43,7 +51,12 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addPizzaToCart, removePizzaFromCart, clearCart, changeNumberPizza } =
-  cartSlice.actions;
+export const {
+  setPizzasToCart,
+  addPizzaToCart,
+  removePizzaFromCart,
+  clearCart,
+  changeNumberPizza,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

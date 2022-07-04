@@ -12,12 +12,12 @@ const Categories: React.FC = () => {
   return (
     <div className={styles.categories}>
       <ul>
-        {pizzaCategories.map((сategory) => (
+        {pizzaCategories.map((item) => (
           <li
-            className={category.id === сategory.id ? styles.active : 'disabled'}
-            key={сategory.id}
-            onClick={() => category.id !== сategory.id && dispatch(setCategory(сategory))}>
-            {сategory.name}
+            className={category.id === item.id ? styles.active : 'disabled'}
+            key={item.id}
+            onClick={() => category.id !== item.id && dispatch(setCategory(item))}>
+            {item.name}
           </li>
         ))}
       </ul>
