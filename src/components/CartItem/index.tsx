@@ -12,7 +12,7 @@ type CartItemProps = {
   pizza: ICartPizza;
 };
 
-const Item: React.FC<CartItemProps> = ({ pizza }) => {
+export const CartItem: React.FC<CartItemProps> = ({ pizza }) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -53,5 +53,3 @@ const Item: React.FC<CartItemProps> = ({ pizza }) => {
     </div>
   );
 };
-
-export default Item;

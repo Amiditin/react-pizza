@@ -5,7 +5,7 @@ import { setCategory } from '../../redux/filter/slice';
 
 import { pizzaCategories } from '../../utils/constans/pizzaOptions';
 
-const Categories: React.FC = () => {
+export const Categories: React.FC = () => {
   const { category } = useAppSelector((state) => state.filter);
   const dispatch = useAppDispatch();
 
@@ -24,5 +24,3 @@ const Categories: React.FC = () => {
     </div>
   );
 };
-
-export default Categories;

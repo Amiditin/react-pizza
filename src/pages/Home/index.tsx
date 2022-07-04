@@ -6,12 +6,14 @@ import { setFilters, setSortDescending } from '../../redux/filter/slice';
 import { setCurPage } from '../../redux/pagination/slice';
 import { fetchPizzas } from '../../redux/pizza/asyncActions';
 
-import Categories from '../../components/Categories';
-import Pagination from '../../components/Pagination';
-import PizzaBlock from '../../components/PizzaBlock';
-import PizzaBlockSkeleton from '../../components/PizzaBlock/Skeleton';
-import Sort from '../../components/Sort';
-import Search from '../../components/Search';
+import {
+  Categories,
+  Pagination,
+  PizzaBlock,
+  Skeleton as PizzaBlockSkeleton,
+  Sort,
+  Search,
+} from '../../components';
 
 import { pizzaCategories, pizzaSorts } from '../../utils/constans/pizzaOptions';
 

@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { setPizzasToCart } from '../redux/cart/slice';
 
-import Header from './Header';
+import { Header } from './index';
 
 const Layout: React.FC = () => {
   const location = useLocation();

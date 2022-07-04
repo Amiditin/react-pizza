@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
 import { setSearch } from '../../redux/filter/slice';
 
-const Search: React.FC = () => {
+export const Search: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [value, setValue] = React.useState<string>('');
   const dispatch = useAppDispatch();
@@ -50,5 +50,3 @@ const Search: React.FC = () => {
     </div>
   );
 };
-
-export default Search;

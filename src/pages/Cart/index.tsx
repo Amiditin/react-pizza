@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingCartOutlined, DeleteOutlined, LeftOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
-import CartItem from '../../components/CartItem';
+import { CartItem } from '../../components';
 import { clearCart } from '../../redux/cart/slice';
 import { Popconfirm } from 'antd';
 

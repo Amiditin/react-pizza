@@ -7,7 +7,7 @@ import { setSort } from '../../redux/filter/slice';
 import { pizzaSorts } from '../../utils/constans/pizzaOptions';
 import { IPizzaSort } from '../../utils/interfaces/IPizzaOptions';
 
-const Sort: React.FC = () => {
+export const Sort: React.FC = () => {
   const { sort } = useAppSelector((state) => state.filter);
   const dispatch = useAppDispatch();
 
@@ -55,5 +55,3 @@ const Sort: React.FC = () => {
     </div>
   );
 };
-
-export default Sort;

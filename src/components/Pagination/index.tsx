@@ -8,7 +8,7 @@ type PaginationProps = {
   total: number | undefined;
 };
 
-const Pagination: React.FC<PaginationProps> = ({ total }) => {
+export const Pagination: React.FC<PaginationProps> = ({ total }) => {
   const { curPage, pageSize } = useAppSelector((state) => state.pagination);
   const dispatch = useAppDispatch();
 
@@ -41,5 +41,3 @@ const Pagination: React.FC<PaginationProps> = ({ total }) => {
     </div>
   );
 };
-
-export default Pagination;

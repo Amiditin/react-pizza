@@ -7,7 +7,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addPizzaToCart } from '../../redux/cart/slice';
 
-const PizzaBlock: React.FC<IPizza> = ({ imageUrl, title, types, sizes, price }) => {
+export const PizzaBlock: React.FC<IPizza> = ({ imageUrl, title, types, sizes, price }) => {
   const [numPizzas, setNumPizzas] = React.useState<number>(0);
   const [curType, setCurType] = React.useState<number>(types[0]);
   const [curSize, setCurSize] = React.useState<number>(sizes[0]);
@@ -64,5 +64,3 @@ const PizzaBlock: React.FC<IPizza> = ({ imageUrl, title, types, sizes, price }) 
     </div>
   );
 };
-
-export default PizzaBlock;

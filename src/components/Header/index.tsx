@@ -4,7 +4,7 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const { numberItems, totalPrice } = useAppSelector((state) => state.cart);
   const location = useLocation();
 
@@ -34,5 +34,3 @@ const Header: React.FC = () => {
     </div>
   );
 };
-
-export default Header;
