@@ -12,6 +12,11 @@ const Cart: React.FC = () => {
   const { items, numberItems, totalPrice } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
+  const onClickPay = () => {
+    alert('Спасибо за покупку');
+    dispatch(clearCart());
+  };
+
   return (
     <div className={styles.content}>
       <div className="container">
@@ -52,7 +57,11 @@ const Cart: React.FC = () => {
                   <LeftOutlined />
                   <p>Вернуться назад</p>
                 </Link>
-                <div className={`button ${styles.button_pay}`}>Оплатить сейчас</div>
+                <Link to="/">
+                  <div className={`button ${styles.button_pay}`} onClick={onClickPay}>
+                    Оплатить сейчас
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

@@ -12,6 +12,10 @@ body {
   }
 }
 
+::selection {
+  background: rgba($orange, 0.72)
+}
+
 .wrapper {
   justify-content: center;
   width: calc(100vw - 100px);

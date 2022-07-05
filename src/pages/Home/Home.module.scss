@@ -51,8 +51,9 @@
 .items {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-column-gap: 11px;
-  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+  grid-row-gap: 30px;
+  margin-bottom: 50px;
 
   @media (max-width: 1400px) {
     grid-template-columns: repeat(3, 1fr);

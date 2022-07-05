@@ -12,7 +12,7 @@ export const fetchPizzas = createAsyncThunk<IPizza[], IFilters>(
     const { category, sort, search } = filters;
 
     const { data } = await axios.get<IPizza[]>(
-      `${mockapiUrl}/items?sortBy=${sort.name}` +
+      `${mockapiUrl}/items?${sort.name !== 'price' ? 'sortBy=' + sort.name : ''}` +
         `${category !== pizzaCategories[0] ? '&category=' + category.id : ''}` +
         `${search ? '&search=' + search : ''}`,
     );

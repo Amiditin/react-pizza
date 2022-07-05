@@ -2,20 +2,20 @@ import { IPizzaCategory, IPizzaType, IPizzaSort } from '../interfaces/IPizzaOpti
 
 const pizzaCategories: IPizzaCategory[] = [
   { id: 0, name: 'Все' }, // default category
-  { id: 1, name: 'Мясные' },
-  { id: 2, name: 'Вегетарианские' },
-  { id: 3, name: 'Гриль' },
+  { id: 1, name: 'Популярные' },
+  { id: 2, name: 'Мясные' },
+  { id: 3, name: 'Вегетарианские' },
   { id: 4, name: 'Острые' },
-  { id: 5, name: 'Закрытые' },
+  { id: 5, name: 'Грибные' },
 ];
 
 const pizzaTypes: IPizzaType[] = [
-  { id: 0, name: 'тонкое' },
+  { id: 0, name: 'тонкое' }, // default type
   { id: 1, name: 'традиционное' },
 ];
 
 const pizzaSorts: IPizzaSort[] = [
-  { id: 0, name: 'rating', title: 'популярности' }, // default sort
+  { id: 0, name: 'rating', title: 'рейтингу' }, // default sort
   { id: 1, name: 'price', title: 'цене' },
   { id: 2, name: 'title', title: 'алфавиту' },
 ];

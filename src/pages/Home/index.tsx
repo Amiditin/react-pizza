@@ -52,7 +52,11 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     if (!mountSearchParams) {
-      setSearchParams({ category: category.name, search: search, sort: sort.name });
+      setSearchParams({
+        category: category.id !== 0 ? category.name : [],
+        search: search || [],
+        sort: sort.id !== 0 ? sort.name : [],
+      });
       sortDescending && dispatch(setSortDescending(false));
       curPage !== 1 && dispatch(setCurPage(1));
 
