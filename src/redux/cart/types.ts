@@ -13,7 +13,7 @@ export interface ICartPizza {
 
 export interface ICartChangePizza {
   item: ICartPizza;
-  difference: number;
+  difference: -1 | 1;
 }
 export interface CartPizzasState {
   items: ICartPizza[];

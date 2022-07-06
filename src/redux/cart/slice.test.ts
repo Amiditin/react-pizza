@@ -1,4 +1,3 @@
-import { cartItems } from '../../utils/constans/tests/cartItems.cases';
 import cartReducer, {
   setPizzasToCart,
   addPizzaToCart,
@@ -6,10 +5,13 @@ import cartReducer, {
   clearCart,
   changeNumberPizza,
 } from './slice';
-import { Pizza, ICartPizza, CartPizzasState } from './types';
+import { Pizza, ICartPizza, ICartChangePizza, CartPizzasState } from './types';
+import { cartItemsCases } from '../../utils/constans/tests';
 
 describe('cartSlice', () => {
   const initialState: CartPizzasState = { items: [], numberItems: 0, totalPrice: 0 };
+
+  const { oneItem, threeSameItems, randomNumberItems } = cartItemsCases;
 
   test('should return the initial state', () => {
     const result = cartReducer(undefined, { type: '' });
@@ -18,17 +20,16 @@ describe('cartSlice', () => {
   });
 
   test('should set up state equal payload items with "setPizzasToCart" action', () => {
-    cartItems.forEach((previosState) => {
-      cartItems.forEach((expectedState) => {
+    Object.values(cartItemsCases).forEach((previosState) => {
+      Object.values(cartItemsCases).forEach((expectedState) => {
         const result = cartReducer(previosState, setPizzasToCart(expectedState.items));
-
         expect(result).toEqual(expectedState);
       });
     });
   });
 
   test('should clear a existing state to initial state with "clearCart" action', () => {
-    cartItems.forEach((previosState) => {
+    Object.values(cartItemsCases).forEach((previosState) => {
       const result = cartReducer(previosState, clearCart());
 
       expect(result).toEqual(initialState);
@@ -36,13 +37,13 @@ describe('cartSlice', () => {
   });
 
   test('should add new item to cart with "addPizzaToCart" action', () => {
-    cartItems.forEach((previosState) => {
+    Object.values(cartItemsCases).forEach((previosState) => {
       const payload: Pizza = {
-        imageUrl: 'url',
+        imageUrl: 'https://mysite.com/images/img.webp',
         title: 'Test',
         type: 0,
-        size: 23,
-        price: 500,
+        size: 30,
+        price: 800,
       };
 
       const expectedState: CartPizzasState = {
@@ -58,172 +59,128 @@ describe('cartSlice', () => {
   });
 
   test('should add existing item to cart with "addPizzaToCart" action', () => {
-    const previosState = {
-      items: [
-        {
-          value: {
-            imageUrl: 'url',
-            title: 'Test',
-            type: 0,
-            size: 23,
-            price: 500,
-          },
-          number: 1,
-        },
-      ],
-      numberItems: 1,
-      totalPrice: 500,
+    const previosState: CartPizzasState = oneItem;
+    const payload: Pizza = oneItem.items[0].value;
+    const expectedState: CartPizzasState = {
+      items: [{ value: payload, number: previosState.items[0].number + 1 }],
+      numberItems: previosState.numberItems + 1,
+      totalPrice: previosState.totalPrice + payload.price,
     };
-
-    const payload: Pizza = {
-      imageUrl: 'url',
-      title: 'Test',
-      type: 0,
-      size: 23,
-      price: 500,
-    };
-
-    const expectedState = {
-      items: [
-        {
-          value: {
-            imageUrl: 'url',
-            title: 'Test',
-            type: 0,
-            size: 23,
-            price: 500,
-          },
-          number: 2,
-        },
-      ],
-      numberItems: 2,
-      totalPrice: 1000,
-    };
-
     const result = cartReducer(previosState, addPizzaToCart(payload));
 
     expect(result).toEqual(expectedState);
   });
 
   test('should remove existing item from cart with "removePizzaFromCart" action', () => {
-    const previosState = {
-      items: [
-        {
-          value: {
-            imageUrl:
-              'https://cdn.papajohns.ru//images/catalog/thumbs/cart/f6375e9bcad722574c764dbcc8181c93.webp',
-            title: 'Чеддер Мексикан',
-            type: 0,
-            size: 30,
-            price: 899,
-          },
-          number: 2,
-        },
-        {
-          value: {
-            imageUrl:
-              'https://cdn.papajohns.ru//images/catalog/thumbs/cart/c3801183d9a96b1a7ad600c11add2d83.webp',
-            title: 'Чеддер Чизбургер',
-            type: 0,
-            size: 30,
-            price: 899,
-          },
-          number: 1,
-        },
-      ],
-      numberItems: 3,
-      totalPrice: 2697,
-    };
+    interface ICases {
+      previosState: CartPizzasState;
+      payload: ICartPizza;
+      expectedState: CartPizzasState;
+    }
 
-    const payload: ICartPizza = {
-      value: {
-        imageUrl:
-          'https://cdn.papajohns.ru//images/catalog/thumbs/cart/f6375e9bcad722574c764dbcc8181c93.webp',
-        title: 'Чеддер Мексикан',
-        type: 0,
-        size: 30,
-        price: 899,
+    const cases: ICases[] = [
+      {
+        previosState: oneItem,
+        payload: oneItem.items[0],
+        expectedState: initialState,
       },
-      number: 2,
-    };
-
-    const expectedState = {
-      items: [
-        {
-          value: {
-            imageUrl:
-              'https://cdn.papajohns.ru//images/catalog/thumbs/cart/c3801183d9a96b1a7ad600c11add2d83.webp',
-            title: 'Чеддер Чизбургер',
-            type: 0,
-            size: 30,
-            price: 899,
-          },
-          number: 1,
+      {
+        previosState: threeSameItems,
+        payload: threeSameItems.items[0],
+        expectedState: initialState,
+      },
+      {
+        previosState: randomNumberItems,
+        payload: randomNumberItems.items[0],
+        expectedState: {
+          items: randomNumberItems.items.slice(1),
+          numberItems: 7 - 1,
+          totalPrice: 6169 - 599,
         },
-      ],
-      numberItems: 1,
-      totalPrice: 899,
-    };
+      },
+    ];
 
-    const result = cartReducer(previosState, removePizzaFromCart(payload));
+    cases.forEach((item) => {
+      const result = cartReducer(item.previosState, removePizzaFromCart(item.payload));
 
-    expect(result).toEqual(expectedState);
+      expect(result).toEqual(item.expectedState);
+    });
   });
 
-  test('should change number of items in payload item on payload difference from cart with "changeNumberPizza" action', () => {
-    const previosState = {
-      items: [
-        {
-          value: {
-            imageUrl:
-              'https://cdn.papajohns.ru//images/catalog/thumbs/cart/c3801183d9a96b1a7ad600c11add2d83.webp',
-            title: 'Чеддер Чизбургер',
-            type: 0,
-            size: 30,
-            price: 899,
-          },
-          number: 1,
-        },
-      ],
-      numberItems: 1,
-      totalPrice: 899,
-    };
+  test('should change number of items in payload item to payload difference from cart with "changeNumberPizza" action', () => {
+    interface ICases {
+      previosState: CartPizzasState;
+      payload: ICartChangePizza;
+      expectedState: CartPizzasState;
+    }
 
-    const payloadItem: ICartPizza = {
-      value: {
-        imageUrl:
-          'https://cdn.papajohns.ru//images/catalog/thumbs/cart/c3801183d9a96b1a7ad600c11add2d83.webp',
-        title: 'Чеддер Чизбургер',
-        type: 0,
-        size: 30,
-        price: 899,
+    const cases: ICases[] = [
+      {
+        previosState: oneItem,
+        payload: { item: oneItem.items[0], difference: -1 },
+        expectedState: {
+          items: [{ value: oneItem.items[0].value, number: 0 }],
+          numberItems: 0,
+          totalPrice: 0,
+        },
       },
-      number: 1,
-    };
-
-    const expectedState = {
-      items: [
-        {
-          value: {
-            imageUrl:
-              'https://cdn.papajohns.ru//images/catalog/thumbs/cart/c3801183d9a96b1a7ad600c11add2d83.webp',
-            title: 'Чеддер Чизбургер',
-            type: 0,
-            size: 30,
-            price: 899,
-          },
-          number: 0,
+      {
+        previosState: oneItem,
+        payload: { item: oneItem.items[0], difference: 1 },
+        expectedState: {
+          items: [{ value: oneItem.items[0].value, number: 2 }],
+          numberItems: 2,
+          totalPrice: 599 + 599,
         },
-      ],
-      numberItems: 0,
-      totalPrice: 0,
-    };
+      },
+      {
+        previosState: threeSameItems,
+        payload: { item: threeSameItems.items[0], difference: -1 },
+        expectedState: {
+          items: [{ value: threeSameItems.items[0].value, number: 2 }],
+          numberItems: 2,
+          totalPrice: 1797 - 599,
+        },
+      },
+      {
+        previosState: threeSameItems,
+        payload: { item: threeSameItems.items[0], difference: 1 },
+        expectedState: {
+          items: [{ value: threeSameItems.items[0].value, number: 4 }],
+          numberItems: 4,
+          totalPrice: 1797 + 599,
+        },
+      },
+      {
+        previosState: randomNumberItems,
+        payload: { item: randomNumberItems.items[0], difference: -1 },
+        expectedState: {
+          items: [
+            { value: randomNumberItems.items[0].value, number: 0 },
+            ...randomNumberItems.items.slice(1),
+          ],
+          numberItems: 7 - 1,
+          totalPrice: 6169 - 599,
+        },
+      },
+      {
+        previosState: randomNumberItems,
+        payload: { item: randomNumberItems.items[0], difference: 1 },
+        expectedState: {
+          items: [
+            { value: randomNumberItems.items[0].value, number: 2 },
+            ...randomNumberItems.items.slice(1),
+          ],
+          numberItems: 7 + 1,
+          totalPrice: 6169 + 599,
+        },
+      },
+    ];
 
-    const result = cartReducer(
-      previosState,
-      changeNumberPizza({ item: payloadItem, difference: -1 }),
-    );
+    cases.forEach((item) => {
+      const result = cartReducer(item.previosState, changeNumberPizza(item.payload));
 
-    expect(result).toEqual(expectedState);
+      expect(result).toEqual(item.expectedState);
+    });
   });
 });

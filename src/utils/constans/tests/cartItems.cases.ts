@@ -1,14 +1,16 @@
 import { CartPizzasState } from '../../../redux/cart/types';
 
-export const cartItems: CartPizzasState[] = [
-  // empty cart
-  {
+interface ICartItemsCases {
+  [key: string]: CartPizzasState;
+}
+
+export const cartItemsCases: ICartItemsCases = {
+  empty: {
     items: [],
     numberItems: 0,
     totalPrice: 0,
   },
-  // 1 item in cart
-  {
+  oneItem: {
     items: [
       {
         value: {
@@ -25,8 +27,7 @@ export const cartItems: CartPizzasState[] = [
     numberItems: 1,
     totalPrice: 599,
   },
-  // 3 same items in cart
-  {
+  threeSameItems: {
     items: [
       {
         value: {
@@ -43,8 +44,7 @@ export const cartItems: CartPizzasState[] = [
     numberItems: 3,
     totalPrice: 1797,
   },
-  // random number of items in cart
-  {
+  randomNumberItems: {
     items: [
       {
         value: {
@@ -116,4 +116,4 @@ export const cartItems: CartPizzasState[] = [
     numberItems: 7,
     totalPrice: 6169,
   },
-];
+};
