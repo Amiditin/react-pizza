@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Item.module.scss';
+import styles from './CartItem.module.scss';
 
 import { MinusCircleOutlined, PlusCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { ICartPizza } from '../../redux/cart/types';
