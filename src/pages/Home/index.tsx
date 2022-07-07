@@ -4,7 +4,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setFilters, setSortDescending } from '../../redux/filter/slice';
 import { setCurPage } from '../../redux/pagination/slice';
-import { fetchPizzas } from '../../redux/pizza/asyncActions';
+import { fetchPizzas } from '../../redux/pizza/thunk';
 
 import {
   Categories,

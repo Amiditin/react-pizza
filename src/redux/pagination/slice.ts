@@ -11,10 +11,10 @@ const paginationSlice = createSlice({
   initialState,
   reducers: {
     setCurPage(state, actions: PayloadAction<number>) {
-      state.curPage = actions.payload;
+      if (actions.payload > 0) state.curPage = actions.payload;
     },
     setPageSize(state, actions: PayloadAction<number>) {
-      state.pageSize = actions.payload;
+      if (actions.payload > 0) state.pageSize = actions.payload;
     },
   },
 });

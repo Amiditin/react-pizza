@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PizzasState, Status } from './types';
-import { fetchPizzas } from './asyncActions';
+import { fetchPizzas } from './thunk';
 
 const initialState: PizzasState = {
   items: [],

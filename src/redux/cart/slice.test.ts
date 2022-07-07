@@ -14,7 +14,7 @@ describe('cartSlice', () => {
   const { oneItem, threeSameItems, randomNumberItems } = cartItemsCases;
 
   test('should return the initial state', () => {
-    const result = cartReducer(undefined, { type: '' });
+    const result = cartReducer(undefined, { type: undefined });
 
     expect(result).toEqual(initialState);
   });

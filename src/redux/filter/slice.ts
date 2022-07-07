@@ -27,9 +27,12 @@ const filterSlice = createSlice({
       state.sortDescending = action.payload;
     },
     setFilters(state, action: PayloadAction<IFilters>) {
-      state.category = action.payload.category;
+      if (pizzaCategories.includes(action.payload.category))
+        state.category = action.payload.category;
+
+      if (pizzaSorts.includes(action.payload.sort)) state.sort = action.payload.sort;
+
       state.search = action.payload.search;
-      state.sort = action.payload.sort;
     },
   },
 });
