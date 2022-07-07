@@ -1,0 +1,16 @@
+@import '../../scss/variables';
+
+.loading {
+  text-align: center;
+  padding-bottom: 1px;
+
+  .title {
+    font-size: 34px;
+    font-weight: bold;
+    margin: 150px auto;
+  }
+
+  span {
+    margin-left: 25px;
+  }
+}
