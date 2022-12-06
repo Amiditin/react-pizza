@@ -19,6 +19,7 @@ const cartSlice = createSlice({
         0,
       );
     },
+
     addPizzaToCart(state, action: PayloadAction<Pizza>) {
       const pizza = state.items.find(
         (pizza) => JSON.stringify(pizza.value) === JSON.stringify(action.payload),
@@ -27,6 +28,7 @@ const cartSlice = createSlice({
       state.numberItems += 1;
       state.totalPrice += action.payload.price;
     },
+
     removePizzaFromCart(state, action: PayloadAction<ICartPizza>) {
       state.items = state.items.filter(
         (item) => JSON.stringify(item) !== JSON.stringify(action.payload),
@@ -34,6 +36,7 @@ const cartSlice = createSlice({
       state.numberItems -= action.payload.number;
       state.totalPrice -= action.payload.value.price * action.payload.number;
     },
+
     changeNumberPizza(state, action: PayloadAction<ICartChangePizza>) {
       const pizza = state.items.find(
         (pizza) => JSON.stringify(pizza) === JSON.stringify(action.payload.item),
@@ -43,6 +46,7 @@ const cartSlice = createSlice({
       state.numberItems += action.payload.difference;
       state.totalPrice += action.payload.item.value.price * action.payload.difference;
     },
+
     clearCart(state) {
       state.items = [];
       state.numberItems = 0;
@@ -59,4 +63,4 @@ export const {
   changeNumberPizza,
 } = cartSlice.actions;
 
-export default cartSlice.reducer;
+export const cartReducer = cartSlice.reducer;

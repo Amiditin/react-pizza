@@ -1,4 +1,4 @@
-import paginationReducer, { setCurPage, setPageSize } from './slice';
+import { paginationReducer, setCurPage, setPageSize } from './slice';
 import { PaginationState } from './types';
 
 describe('filterSlice', () => {

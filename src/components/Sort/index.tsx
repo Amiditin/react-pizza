@@ -8,7 +8,7 @@ import { pizzaSorts } from '../../utils/constans/pizzaOptions';
 import { IPizzaSort } from '../../utils/interfaces/IPizzaOptions';
 
 export const Sort: React.FC = () => {
-  const { sort } = useAppSelector((state) => state.filter);
+  const sort = useAppSelector((state) => state.filter.sort);
   const dispatch = useAppDispatch();
 
   const [isVisible, setIsVisible] = React.useState<boolean>(false);

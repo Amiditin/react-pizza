@@ -5,7 +5,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/redux';
 
 export const Header: React.FC = () => {
-  const { numberItems, totalPrice } = useAppSelector((state) => state.cart);
+  const [numberItems, totalPrice] = useAppSelector((state) => [
+    state.cart.numberItems,
+    state.cart.totalPrice,
+  ]);
   const location = useLocation();
 
   return (

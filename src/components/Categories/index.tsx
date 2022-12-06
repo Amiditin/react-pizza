@@ -6,7 +6,7 @@ import { setCategory } from '../../redux/filter/slice';
 import { pizzaCategories } from '../../utils/constans/pizzaOptions';
 
 export const Categories: React.FC = () => {
-  const { category } = useAppSelector((state) => state.filter);
+  const category = useAppSelector((state) => state.filter.category);
   const dispatch = useAppDispatch();
 
   return (

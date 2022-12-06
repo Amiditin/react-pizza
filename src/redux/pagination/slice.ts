@@ -13,6 +13,7 @@ const paginationSlice = createSlice({
     setCurPage(state, actions: PayloadAction<number>) {
       if (actions.payload > 0) state.curPage = actions.payload;
     },
+
     setPageSize(state, actions: PayloadAction<number>) {
       if (actions.payload > 0) state.pageSize = actions.payload;
     },
@@ -21,4 +22,4 @@ const paginationSlice = createSlice({
 
 export const { setCurPage, setPageSize } = paginationSlice.actions;
 
-export default paginationSlice.reducer;
+export const paginationReducer = paginationSlice.reducer;

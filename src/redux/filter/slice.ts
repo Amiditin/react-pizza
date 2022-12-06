@@ -17,15 +17,19 @@ const filterSlice = createSlice({
     setCategory(state, action: PayloadAction<IPizzaCategory>) {
       state.category = action.payload;
     },
+
     setSearch(state, action: PayloadAction<string>) {
       state.search = action.payload;
     },
+
     setSort(state, action: PayloadAction<IPizzaSort>) {
       state.sort = action.payload;
     },
+
     setSortDescending(state, action: PayloadAction<boolean>) {
       state.sortDescending = action.payload;
     },
+
     setFilters(state, action: PayloadAction<IFilters>) {
       if (pizzaCategories.includes(action.payload.category))
         state.category = action.payload.category;
@@ -40,4 +44,4 @@ const filterSlice = createSlice({
 export const { setCategory, setSearch, setSort, setSortDescending, setFilters } =
   filterSlice.actions;
 
-export default filterSlice.reducer;
+export const filterReducer = filterSlice.reducer;

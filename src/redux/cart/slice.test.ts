@@ -1,4 +1,5 @@
-import cartReducer, {
+import {
+  cartReducer,
   setPizzasToCart,
   addPizzaToCart,
   removePizzaFromCart,

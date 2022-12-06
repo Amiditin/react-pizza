@@ -1,4 +1,5 @@
-import filterReducer, {
+import {
+  filterReducer,
   setCategory,
   setSearch,
   setSort,

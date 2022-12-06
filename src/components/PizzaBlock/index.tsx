@@ -19,7 +19,7 @@ export const PizzaBlock: React.FC<IPizza> = ({
   const [curType, setCurType] = React.useState<number>(types[0]);
   const [curSize, setCurSize] = React.useState<number>(sizes[0].value[0]);
 
-  const { items } = useAppSelector((state) => state.cart);
+  const items = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {

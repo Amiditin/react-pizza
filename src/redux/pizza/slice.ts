@@ -29,4 +29,4 @@ const pizzaSlice = createSlice({
   },
 });
 
-export default pizzaSlice.reducer;
+export const pizzaReducer = pizzaSlice.reducer;
